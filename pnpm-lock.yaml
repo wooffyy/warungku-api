@@ -17,6 +17,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.101.1
         version: 2.101.1
+      bearer-auth:
+        specifier: ^0.1.3
+        version: 0.1.3
       cors:
         specifier: ^2.8.6
         version: 2.8.6
@@ -243,6 +246,9 @@ packages:
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
+  bearer-auth@0.1.3:
+    resolution: {integrity: sha512-yJLMogLpW5Cse5yePG5vdV/XvIR+StpvbSEj8SGQUxsj4/TnbHWm/LLI4lIixOe5/P0F4PRYF180hYqGMkliVg==}
+
   cors@2.8.6:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
     engines: {node: '>= 0.10'}
@@ -450,6 +456,8 @@ snapshots:
   '@types/ws@8.18.1':
     dependencies:
       '@types/node': 20.19.39
+
+  bearer-auth@0.1.3: {}
 
   cors@2.8.6:
     dependencies:
