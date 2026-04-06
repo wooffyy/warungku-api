@@ -11,9 +11,12 @@ app.get('/', async (c) => {
     .eq('is_available', true)
     .is('deleted_at', null)
 
-
     if (error) {
       return c.json({ error: error.message }, 500)
+    }
+
+    if (data.length === 0) {
+      return c.json({ error: 'Not found' }, 404)
     }
     return c.json({ data })
 })
@@ -30,6 +33,10 @@ app.get('/:id', async (c) => {
 
     if (error) {
       return c.json({ error: error.message }, 500)
+    }
+    
+    if (data.length === 0) {
+      return c.json({ error: 'Not found' }, 404)
     }
     return c.json({ data })
 })

@@ -19,8 +19,11 @@ app.get('/', authMiddleware, async (c) => {
         return c.json({ error: error.message }, 500)
     }
 
-    return c.json({ data })
+    if (data.length === 0) {
+      return c.json({ error: 'Not found' }, 404)
+    }
 
+    return c.json({ data })
 })
 
 app.post('/', zValidator('json', createOrderSchema), async (c) => {
@@ -140,7 +143,7 @@ app.get('/:token', async (c) => {
         }
         return c.json({ error: error.message }, 500)
     }
-
+    
     return c.json({ data })
 
 })
