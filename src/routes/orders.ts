@@ -148,13 +148,36 @@ app.get('/:token', async (c) => {
 
 })
 
-app.patch('/:token/status', authMiddleware,  zValidator('json', updateOrderStatusSchema),  async (c) => {
+app.patch('/:token/status', authMiddleware, zValidator('json', updateOrderStatusSchema),  async (c) => {
+    const VALID_TRANSITIONS: Record<string, string[]> = {
+        PENDING: ['PAID'],
+        PAID: ['DONE'],
+        DONE: []
+    };
+
     const token = c.req.param('token')
-    const { status } = c.req.valid('json')
+    const { status: newStatus } = c.req.valid('json')
+
+    const { data: currentOrder, error: fetchError } = await supabase
+    .from('orders')
+    .select('status')
+    .eq('token', token)
+    .eq('tenant_id', process.env.TENANT_ID)
+    .single()
+
+    if (fetchError || !currentOrder) {
+        return c.json({ error: 'Order not found' }, 404)
+    }
+
+    const currentStatus = currentOrder.status
+
+    if (!VALID_TRANSITIONS[currentStatus as keyof typeof VALID_TRANSITIONS].includes(newStatus)) {
+        return c.json({ error: 'Invalid status transition' }, 400)
+    }
 
     const { data, error } = await supabase
     .from('orders')
-    .update({ status })
+    .update({ status: newStatus })
     .eq('token', token)
     .eq('tenant_id', process.env.TENANT_ID)
     .select()
